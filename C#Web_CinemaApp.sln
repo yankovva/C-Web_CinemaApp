@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaApp.Web", "CinemaApp.Web\CinemaApp.Web.csproj", "{EE7FB42A-A975-4131-9A55-862167D00E0C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaApp.Web.ViewModels", "CinemaApp.Web.ViewModels\CinemaApp.Web.ViewModels.csproj", "{684714E8-CDB2-48AE-AA7D-90873DCB73D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaApp.Web.Common", "CinemaApp.Web.Common\CinemaApp.Web.Common.csproj", "{92ED04F9-8BF3-49E6-8E67-1A2E0B23555E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaWeb.Data.Models", "CinemaWeb.Data.Models\CinemaWeb.Data.Models.csproj", "{32B79F68-B354-4422-A508-3CB89DFA81B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{F483FC5A-BF84-4293-A759-75A908EE6D15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6DAC04DB-352E-44CF-A1F1-C819325F6401}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CinemaApp.Data", "CinemaApp.Data\CinemaApp.Data.csproj", "{EE14B80B-665C-48B9-8338-846BF3086672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaApp.Web.Infrastucture", "CinemaApp.Web.Infrastucture\CinemaApp.Web.Infrastucture.csproj", "{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE7FB42A-A975-4131-9A55-862167D00E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE7FB42A-A975-4131-9A55-862167D00E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE7FB42A-A975-4131-9A55-862167D00E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE7FB42A-A975-4131-9A55-862167D00E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{684714E8-CDB2-48AE-AA7D-90873DCB73D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{684714E8-CDB2-48AE-AA7D-90873DCB73D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{684714E8-CDB2-48AE-AA7D-90873DCB73D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{684714E8-CDB2-48AE-AA7D-90873DCB73D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92ED04F9-8BF3-49E6-8E67-1A2E0B23555E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92ED04F9-8BF3-49E6-8E67-1A2E0B23555E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92ED04F9-8BF3-49E6-8E67-1A2E0B23555E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92ED04F9-8BF3-49E6-8E67-1A2E0B23555E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32B79F68-B354-4422-A508-3CB89DFA81B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32B79F68-B354-4422-A508-3CB89DFA81B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32B79F68-B354-4422-A508-3CB89DFA81B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32B79F68-B354-4422-A508-3CB89DFA81B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE14B80B-665C-48B9-8338-846BF3086672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE14B80B-665C-48B9-8338-846BF3086672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE14B80B-665C-48B9-8338-846BF3086672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE14B80B-665C-48B9-8338-846BF3086672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE7FB42A-A975-4131-9A55-862167D00E0C} = {6DAC04DB-352E-44CF-A1F1-C819325F6401}
+		{684714E8-CDB2-48AE-AA7D-90873DCB73D7} = {6DAC04DB-352E-44CF-A1F1-C819325F6401}
+		{32B79F68-B354-4422-A508-3CB89DFA81B9} = {F483FC5A-BF84-4293-A759-75A908EE6D15}
+		{EE14B80B-665C-48B9-8338-846BF3086672} = {F483FC5A-BF84-4293-A759-75A908EE6D15}
+		{BCDE448F-89D7-4C2E-9ECC-4DA1ECE34783} = {6DAC04DB-352E-44CF-A1F1-C819325F6401}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5349288-4CFA-418C-842D-9B09A50506E7}
+	EndGlobalSection
+EndGlobal
