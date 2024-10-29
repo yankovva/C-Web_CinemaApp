@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CinemaApp.Data\CinemaApp.Data.csproj" />
+    <ProjectReference Include="..\CinemaApp.Services.Mapping\CinemaApp.Services.Mapping.csproj" />
     <ProjectReference Include="..\CinemaApp.Web.Common\CinemaApp.Web.Common.csproj" />
     <ProjectReference Include="..\CinemaApp.Web.Infrastucture\CinemaApp.Web.Infrastucture.csproj" />
     <ProjectReference Include="..\CinemaApp.Web.ViewModels\CinemaApp.Web.ViewModels.csproj" />

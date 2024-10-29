@@ -9,7 +9,6 @@
         public Guid CinemaId { get; set; }
         public Cinema Cinema { get; set; } = null!;
 
-        //ne mi go slaga v DB????????? >.<
         public bool IsDeleted { get; set; } = false;
     }
 }

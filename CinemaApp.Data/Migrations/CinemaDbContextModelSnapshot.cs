@@ -106,7 +106,7 @@ namespace CinemaApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cinemas");
+                    b.ToTable("Cinemas", (string)null);
 
                     b.HasData(
                         new
@@ -146,7 +146,7 @@ namespace CinemaApp.Data.Migrations
 
                     b.HasIndex("CinemaId");
 
-                    b.ToTable("CinemasMovies");
+                    b.ToTable("CinemasMovies", (string)null);
                 });
 
             modelBuilder.Entity("CinemaWeb.Data.Models.Movie", b =>
@@ -189,7 +189,7 @@ namespace CinemaApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
 
                     b.HasData(
                         new
@@ -226,7 +226,7 @@ namespace CinemaApp.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("UsersMovies");
+                    b.ToTable("UsersMovies", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

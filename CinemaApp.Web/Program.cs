@@ -7,48 +7,50 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using System.Configuration;
 using Microsoft.AspNetCore.Components.Web;
+using CinemaApp.Services.Mapping;
+using CinemaApp.Web.ViewModels;
 
 //internal class Program
 //{
 //    private static void Main(string[] args)
 //    {
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-        //������� �� �� ������ � ����� ���� ��������� �� ������� ������� �������.
+//������� �� �� ������ � ����� ���� ��������� �� ������� ������� �������.
 
-        // Add services to the container.
+// Add services to the container.
 
-        //������� �������� �������
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-           ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+//������� �������� �������
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+   ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        builder.Services.AddDbContext<CinemaDbContext>(options =>
-        {
-            options.UseSqlServer(connectionString);
-        });
+builder.Services.AddDbContext<CinemaDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
 
-        builder.Services
-            .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
-        {
-            options.Password.RequireDigit = builder.Configuration.GetValue<bool>("Identity:Password:RequireDigits");
-            options.Password.RequireLowercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
-            options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
-            options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
-            options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
-            options.Password.RequiredUniqueChars = builder.Configuration.GetValue<int>("Identity:Password:RequiredUniqueChars");
+builder.Services
+    .AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+{
+    options.Password.RequireDigit = builder.Configuration.GetValue<bool>("Identity:Password:RequireDigits");
+    options.Password.RequireLowercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireLowercase");
+    options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
+    options.Password.RequireNonAlphanumeric = builder.Configuration.GetValue<bool>("Identity:Password:RequireNonAlphanumeric");
+    options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
+    options.Password.RequiredUniqueChars = builder.Configuration.GetValue<int>("Identity:Password:RequiredUniqueChars");
 
-            options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
-            options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedEmail");
-            options.SignIn.RequireConfirmedPhoneNumber = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedPhoneNumber");
+    options.SignIn.RequireConfirmedAccount = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedAccount");
+    options.SignIn.RequireConfirmedEmail = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedEmail");
+    options.SignIn.RequireConfirmedPhoneNumber = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireConfirmedPhoneNumber");
 
-            options.User.RequireUniqueEmail = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireUniqueEmail");
+    options.User.RequireUniqueEmail = builder.Configuration.GetValue<bool>("Identity:SignIn:RequireUniqueEmail");
 
 
 
-        })
-           .AddEntityFrameworkStores<CinemaDbContext>()
-          .AddRoles<IdentityRole<Guid>>()
-          .AddSignInManager<SignInManager<ApplicationUser>>()
-          .AddUserManager<UserManager<ApplicationUser>>();
+})
+   .AddEntityFrameworkStores<CinemaDbContext>()
+  .AddRoles<IdentityRole<Guid>>()
+  .AddSignInManager<SignInManager<ApplicationUser>>()
+  .AddUserManager<UserManager<ApplicationUser>>();
 
 builder.Services.ConfigureApplicationCookie(cfg =>
 {
@@ -58,40 +60,42 @@ builder.Services.ConfigureApplicationCookie(cfg =>
 
 
 
-        builder.Services.AddRazorPages();
+builder.Services.AddRazorPages();
 
-        builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();
 
-        WebApplication app = builder.Build();
+WebApplication app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseMigrationsEndPoint();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            app.UseHsts();
+AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly);
 
-        }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 
-        app.UseHttpsRedirection();
-        app.UseStaticFiles();
+}
 
-        app.UseRouting();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+app.UseRouting();
 
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseAuthentication();
+app.UseAuthorization();
 
-        app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-        app.ApplyMigrations(); //- syzdavame nash extension method koito apply-wa migraciite pri build na prilojenieto
-        app.Run();
+app.MapRazorPages();
+
+app.ApplyMigrations(); //- syzdavame nash extension method koito apply-wa migraciite pri build na prilojenieto
+app.Run();
 //    }
 //}
