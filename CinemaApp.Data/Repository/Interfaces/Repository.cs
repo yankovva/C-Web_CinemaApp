@@ -9,42 +9,66 @@ namespace CinemaApp.Data.Repository.Interfaces
 {
     public class Repository<TType, TId> : IRepository<TType, TId> where TType : class
     {
-        private readonly CinemaDbContext _dbContext;
+        private readonly CinemaDbContext dbContext;
         private readonly DbSet<TType> dbSet;
 
         public Repository(CinemaDbContext dbContext)
         {
-                this._dbContext = dbContext;
-               this.dbSet = this._dbContext.Set<TType>();
+                this.dbContext = dbContext;
+               this.dbSet = this.dbContext.Set<TType>();
         }
         public void Add(TType item)
         {
-            
+            this.dbSet.Add(item);
+            this.dbContext.SaveChanges();
         }
 
-        public Task AddAsync(TType item)
+        public async Task AddAsync(TType item)
         {
-            throw new NotImplementedException();
+           await this.dbSet.AddAsync(item);
+           await  this.dbContext.SaveChangesAsync();
         }
 
         public bool Delete(TId id)
         {
-            throw new NotImplementedException();
+            TType entity = this.GetById(id);
+            if (entity == null)
+            {
+                return false;
+            }
+            this.dbSet.Remove(entity);
+            this.dbContext.SaveChanges();
+
+            return true;
         }
 
-        public Task<bool> DeleteAsync(TId id)
+        public async Task<bool> DeleteAsync(TId id)
         {
-            throw new NotImplementedException();
+            TType entity = await this.GetByIdAsync(id);
+            if (entity == null)
+            {
+                return false;
+            }
+            this.dbSet.Remove(entity);
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public IEnumerable<TType> GetAll()
         {
-            return this.dbSet.All(); 
+            return this.dbSet.ToArray(); 
         }
 
-        public Task<IEnumerable<TType>> GetAllAsync()
+        public async Task<IEnumerable<TType>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await this.dbSet.ToArrayAsync();
+        }
+
+
+        public IEnumerable<TType> GetAllAttached()
+        {
+            return this.dbSet.AsQueryable();
         }
 
         public TType GetById(TId id)
@@ -63,24 +87,38 @@ namespace CinemaApp.Data.Repository.Interfaces
             return entity;
         }
 
-        public bool SoftDelete(TId id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SoftDeleteAsync(TId id)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public bool Update(TType item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.dbSet.Attach(item);
+                this.dbContext.Entry(item)
+                    .State = EntityState.Modified;
+                this.dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
-        public Task<bool> UpdateAsync(TType item)
+        public  async Task<bool> UpdateAsync(TType item)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.dbSet.Attach(item);
+                this.dbContext.Entry(item)
+                    .State = EntityState.Modified;
+                await this.dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }
