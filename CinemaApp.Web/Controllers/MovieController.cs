@@ -7,6 +7,7 @@ using CinemaApp.Web.ViewModels.Movie;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using CinemaApp.Web.ViewModels.Cinema;
+using CinemaApp.Data.Repository.Interfaces;
 
 namespace CinemaApp.Web.Controllers
 {
@@ -14,18 +15,22 @@ namespace CinemaApp.Web.Controllers
     {
         //Dependecy Injection
         private readonly CinemaDbContext dbContext;
+        private readonly IRepository<Movie, Guid> movieRepository;
 
-        public MovieController(CinemaDbContext dbContext)
+        public MovieController(CinemaDbContext dbContext, IRepository<Movie, Guid> movierepository)
         {
             this.dbContext = dbContext;
+            this.movieRepository = movierepository;
         }
-
+        
+        
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Movie> allMovies =await  this.dbContext
                 .Movies
                 .ToListAsync();
+            
 
             //подаваме АлМувис ако обект на вюто.
             return View(allMovies);

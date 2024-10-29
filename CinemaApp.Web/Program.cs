@@ -9,17 +9,16 @@ using System.Configuration;
 using Microsoft.AspNetCore.Components.Web;
 using CinemaApp.Services.Mapping;
 using CinemaApp.Web.ViewModels;
+using CinemaApp.Data.Repository.Interfaces;
 
 //internal class Program
 //{
 //    private static void Main(string[] args)
 //    {
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-//������� �� �� ������ � ����� ���� ��������� �� ������� ������� �������.
 
 // Add services to the container.
 
-//������� �������� �������
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -57,6 +56,10 @@ builder.Services.ConfigureApplicationCookie(cfg =>
     cfg.LoginPath = "/Identity/Account/Login";
 });
 
+builder.Services.AddScoped<IRepository<Movie, Guid>, Repository<Movie,Guid>>();
+builder.Services.AddScoped<IRepository<Cinema, Guid>, Repository<Cinema, Guid>>();
+builder.Services.AddScoped<IRepository<CinemaMovie, object >, Repository<CinemaMovie, object>>();
+builder.Services.AddScoped<IRepository<UserMovie, object>, Repository<UserMovie, object>>();
 
 
 
