@@ -56,11 +56,13 @@ builder.Services.ConfigureApplicationCookie(cfg =>
     cfg.LoginPath = "/Identity/Account/Login";
 });
 
-builder.Services.AddScoped<IRepository<Movie, Guid>, Repository<Movie,Guid>>();
-builder.Services.AddScoped<IRepository<Cinema, Guid>, Repository<Cinema, Guid>>();
-builder.Services.AddScoped<IRepository<CinemaMovie, object >, Repository<CinemaMovie, object>>();
-builder.Services.AddScoped<IRepository<UserMovie, object>, Repository<UserMovie, object>>();
 
+//builder.Services.AddScoped<IRepository<Movie, Guid>, Repository<Movie, Guid>>();
+//builder.Services.AddScoped<IRepository<Cinema, Guid>, Repository<Cinema, Guid>>();
+//builder.Services.AddScoped<IRepository<CinemaMovie, object>, Repository<CinemaMovie, object>>();
+//builder.Services.AddScoped<IRepository<UserMovie, object>, Repository<UserMovie, object>>();
+
+builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
 
 
 builder.Services.AddRazorPages();
