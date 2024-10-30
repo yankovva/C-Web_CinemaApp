@@ -65,6 +65,9 @@ builder.Services.ConfigureApplicationCookie(cfg =>
 //builder.Services.AddScoped<IRepository<UserMovie, object>, Repository<UserMovie, object>>();
 
 builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+
+builder.Services.RegisterUserDefinedServices(typeof(IMovieService).Assembly);
+
 builder.Services.AddScoped<ICinemaService, CinemaService>();
 
 
