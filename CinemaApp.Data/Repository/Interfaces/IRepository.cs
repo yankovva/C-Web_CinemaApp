@@ -10,9 +10,10 @@ namespace CinemaApp.Data.Repository.Interfaces
     {
         TType GetById(TId id);
 
-        Task<TType> GetByIdAsync(TId id); 
-        
-        IEnumerable<TType> GetAll();
+        Task<TType> GetByIdAsync(TId id);
+		Task<TType> GetByIdAsync(params TId[] id);
+
+		IEnumerable<TType> GetAll();
         Task<IEnumerable<TType>> GetAllAsync();
         IQueryable<TType> GetAllAttached();
 
@@ -25,6 +26,8 @@ namespace CinemaApp.Data.Repository.Interfaces
         bool Update(TType item);
         Task<bool> UpdateAsync(TType item);
 
+        void AddRange(TType[] items);
+        Task AddRangeAsync(TType[] items);
 
     }
 }

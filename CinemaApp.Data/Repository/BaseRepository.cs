@@ -30,7 +30,20 @@ namespace CinemaApp.Data.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public bool Delete(TId id)
+		public void AddRange(TType[] items)
+		{
+            this.dbSet.AddRange(items);
+            this.dbContext.SaveChanges();
+		}
+
+		public async Task AddRangeAsync(TType[] items)
+		{
+			await this.dbSet.AddRangeAsync(items);
+            await this.dbContext.AddRangeAsync(items);
+
+		}
+
+		public bool Delete(TId id)
         {
             TType entity = GetById(id);
             if (entity == null)
@@ -88,9 +101,15 @@ namespace CinemaApp.Data.Repository
             return entity;
         }
 
+		public async Task<TType> GetByIdAsync(params TId[] id)
+		{
+			TType entity = await dbSet
+              .FindAsync(id[0], id[1]);
 
+			return entity;
+		}
 
-        public bool Update(TType item)
+		public bool Update(TType item)
         {
             try
             {

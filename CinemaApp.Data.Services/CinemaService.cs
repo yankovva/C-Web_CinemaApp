@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CinemaApp.Data.Services
 {
-    public class CinemaService : ICinemaService
+    public class CinemaService : BaseService,ICinemaService
     {
         private readonly IRepository<Cinema, Guid> cinemaRepository;
         public CinemaService(IRepository<Cinema, Guid> cinemaRepository)
