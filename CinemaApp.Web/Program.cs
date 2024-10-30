@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Components.Web;
 using CinemaApp.Services.Mapping;
 using CinemaApp.Web.ViewModels;
 using CinemaApp.Data.Repository.Interfaces;
+using CinemaApp.Data.Services.Interfaces;
+using CinemaApp.Data.Services;
 
 //internal class Program
 //{
@@ -63,6 +65,7 @@ builder.Services.ConfigureApplicationCookie(cfg =>
 //builder.Services.AddScoped<IRepository<UserMovie, object>, Repository<UserMovie, object>>();
 
 builder.Services.RegisterRepositories(typeof(ApplicationUser).Assembly);
+builder.Services.AddScoped<ICinemaService, CinemaService>();
 
 
 builder.Services.AddRazorPages();

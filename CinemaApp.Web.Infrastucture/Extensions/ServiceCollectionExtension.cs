@@ -1,4 +1,5 @@
-﻿using CinemaApp.Data.Repository.Interfaces;
+﻿using CinemaApp.Data.Repository;
+using CinemaApp.Data.Repository.Interfaces;
 using CinemaWeb.Data.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -27,7 +28,7 @@ namespace CinemaApp.Web.Infrastucture.Extensions
                 if (!typesToExclude.Contains(type))
                 {
                     Type repositoryInterface = typeof(IRepository<,>);
-                    Type repositoryInstanceType = typeof(Repository<,>);
+                    Type repositoryInstanceType = typeof(BaseRepository<,>);
                     PropertyInfo? idPropInfo = type
                         .GetProperties()
                         .Where(p => p.Name.ToLower() == "id")

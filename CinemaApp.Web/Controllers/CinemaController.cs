@@ -1,10 +1,10 @@
 ﻿using CinemaApp.Data;
-using CinemaApp.Web.ViewModels.Cinema;
-using CinemaApp.Web.ViewModels.Movie;
+using CinemaApp.Data.Services.Interfaces;
+using CinemaApp.Web.ViewModels.CinemaViewModels;
+using CinemaApp.Web.ViewModels.MovieViewModels;
 using CinemaWeb.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace CinemaApp.Web.Controllers
 {
@@ -12,26 +12,20 @@ namespace CinemaApp.Web.Controllers
     {
 
         private readonly CinemaDbContext dbContext;
+        private readonly ICinemaService cinemaService;
 
-        public CinemaController(CinemaDbContext context)
+        public CinemaController(CinemaDbContext context, ICinemaService cinemaService)
         {
                 this.dbContext = context;
+                this.cinemaService = cinemaService;
         }
 
         [HttpGet]
         public  async Task<IActionResult> Index()
         {
-            IEnumerable<CinemaIndexViewModel> cinemas = await this.dbContext.Cinemas
-                .Select( c=> new CinemaIndexViewModel()
-                {
-                    Id = c.Id.ToString(),
-                    Name = c.Name,
-                    Location = c.Location,
-
-                })
-                .OrderBy( c => c.Location)
-                .ToArrayAsync();
-            
+            IEnumerable<CinemaIndexViewModel> cinemas = await this.cinemaService
+                .IndexGetAllOrderedByLocationAsync();
+                
             return View(cinemas);
         }
 

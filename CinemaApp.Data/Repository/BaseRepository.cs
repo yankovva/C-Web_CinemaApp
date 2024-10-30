@@ -1,79 +1,80 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CinemaApp.Data.Repository.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CinemaApp.Data.Repository.Interfaces
+namespace CinemaApp.Data.Repository
 {
-    public class Repository<TType, TId> : IRepository<TType, TId> where TType : class
+    public class BaseRepository<TType, TId> : IRepository<TType, TId> where TType : class
     {
         private readonly CinemaDbContext dbContext;
         private readonly DbSet<TType> dbSet;
 
-        public Repository(CinemaDbContext dbContext)
+        public BaseRepository(CinemaDbContext dbContext)
         {
-                this.dbContext = dbContext;
-               this.dbSet = this.dbContext.Set<TType>();
+            this.dbContext = dbContext;
+            dbSet = this.dbContext.Set<TType>();
         }
         public void Add(TType item)
         {
-            this.dbSet.Add(item);
-            this.dbContext.SaveChanges();
+            dbSet.Add(item);
+            dbContext.SaveChanges();
         }
 
         public async Task AddAsync(TType item)
         {
-           await this.dbSet.AddAsync(item);
-           await  this.dbContext.SaveChangesAsync();
+            await dbSet.AddAsync(item);
+            await dbContext.SaveChangesAsync();
         }
 
         public bool Delete(TId id)
         {
-            TType entity = this.GetById(id);
+            TType entity = GetById(id);
             if (entity == null)
             {
                 return false;
             }
-            this.dbSet.Remove(entity);
-            this.dbContext.SaveChanges();
+            dbSet.Remove(entity);
+            dbContext.SaveChanges();
 
             return true;
         }
 
         public async Task<bool> DeleteAsync(TId id)
         {
-            TType entity = await this.GetByIdAsync(id);
+            TType entity = await GetByIdAsync(id);
             if (entity == null)
             {
                 return false;
             }
-            this.dbSet.Remove(entity);
-            await this.dbContext.SaveChangesAsync();
+            dbSet.Remove(entity);
+            await dbContext.SaveChangesAsync();
 
             return true;
         }
 
         public IEnumerable<TType> GetAll()
         {
-            return this.dbSet.ToArray(); 
+            return dbSet.ToArray();
         }
 
         public async Task<IEnumerable<TType>> GetAllAsync()
         {
-            return await this.dbSet.ToArrayAsync();
+            return await dbSet.ToArrayAsync();
         }
 
 
-        public IEnumerable<TType> GetAllAttached()
+        public IQueryable<TType> GetAllAttached()
         {
-            return this.dbSet.AsQueryable();
+            return dbSet.AsQueryable();
         }
 
         public TType GetById(TId id)
         {
-            TType entity = this.dbSet
+            TType entity = dbSet
                .Find(id);
 
             return entity;
@@ -81,22 +82,22 @@ namespace CinemaApp.Data.Repository.Interfaces
 
         public async Task<TType> GetByIdAsync(TId id)
         {
-            TType entity = await  this.dbSet
+            TType entity = await dbSet
                .FindAsync(id);
 
             return entity;
         }
 
-      
+
 
         public bool Update(TType item)
         {
             try
             {
-                this.dbSet.Attach(item);
-                this.dbContext.Entry(item)
+                dbSet.Attach(item);
+                dbContext.Entry(item)
                     .State = EntityState.Modified;
-                this.dbContext.SaveChanges();
+                dbContext.SaveChanges();
                 return true;
             }
             catch (Exception e)
@@ -105,14 +106,14 @@ namespace CinemaApp.Data.Repository.Interfaces
             }
         }
 
-        public  async Task<bool> UpdateAsync(TType item)
+        public async Task<bool> UpdateAsync(TType item)
         {
             try
             {
-                this.dbSet.Attach(item);
-                this.dbContext.Entry(item)
+                dbSet.Attach(item);
+                dbContext.Entry(item)
                     .State = EntityState.Modified;
-                await this.dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using static CinemaApp.Web.Common.EntityValidatonConstants.Cinema;
 
-namespace CinemaApp.Web.ViewModels.Cinema
+namespace CinemaApp.Web.ViewModels.CinemaViewModels
 {
     public class CreateCinemaVIewModel
     {

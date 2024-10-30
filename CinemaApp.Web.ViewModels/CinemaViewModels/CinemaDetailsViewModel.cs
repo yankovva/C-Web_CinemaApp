@@ -1,12 +1,7 @@
-﻿using CinemaApp.Web.ViewModels.Movie;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CinemaApp.Web.ViewModels.MovieViewModels;
 
 
-namespace CinemaApp.Web.ViewModels.Cinema
+namespace CinemaApp.Web.ViewModels.CinemaViewModels
 {
     public class CinemaDetailsViewModel
     {
