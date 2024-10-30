@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.IdentityModel.Tokens;
 using  CinemaWeb.Data.Models;
-using CinemaApp.Web.ViewModels.Movie;
+using CinemaApp.Web.ViewModels.MovieViewModels;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
-using CinemaApp.Web.ViewModels.Cinema;
+using CinemaApp.Web.ViewModels.CinemaViewModels;
 using CinemaApp.Data.Repository.Interfaces;
 
 namespace CinemaApp.Web.Controllers
 {
-    public class MovieController : Controller
+    public class MovieController : BaseController
     {
         //Dependecy Injection
         private readonly CinemaDbContext dbContext;
@@ -80,14 +80,16 @@ namespace CinemaApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            bool IsValid = Guid.TryParse(id, out Guid guidId);
-
-            if (!IsValid) {
+            Guid movieGuid = Guid.Empty;
+            bool isGuidValid = this.IsGuidValid(id, ref movieGuid);
+            if (!isGuidValid)
+            {
+                // Invalid id format
                 return this.RedirectToAction(nameof(Index));
             }
 
             Movie? movie = await this.dbContext.Movies
-                .FirstOrDefaultAsync(m => m.Id == guidId);
+                .FirstOrDefaultAsync(m => m.Id == movieGuid);
 
             if (movie == null) {
                 return this.RedirectToAction(nameof(Index));
@@ -99,14 +101,10 @@ namespace CinemaApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AddToProgram(string? id)
         {
-            //проверка дали има нещо поддадено в УРЛ-а
-            if (string.IsNullOrWhiteSpace(id))
-            {
-                return this.RedirectToAction(nameof(Index));
-            }
+            
 
-            //проверка дали нещото в УРЛ-а е Гуид
-            bool isGuidValid = Guid.TryParse(id, out var movieGuid);
+            Guid movieGuid = Guid.Empty;
+            bool isGuidValid = this.IsGuidValid(id, ref movieGuid);
             if (!isGuidValid)
             {
                 return this.RedirectToAction(nameof(Index));
@@ -133,7 +131,7 @@ namespace CinemaApp.Web.Controllers
                     Name = c.Name,
                     Location = c.Location,
                     IsSelected = c.CinemaMovies
-                    .Any(cm => cm.Movie.Id == movieGuid)
+                    .Any(cm => cm.Movie.Id == movieGuid && cm.IsDeleted == false)
                 })
                 .ToArrayAsync()
             };
@@ -147,14 +145,9 @@ namespace CinemaApp.Web.Controllers
             {
                 return this.View(model);
             }
-            //проверка дали има нещо поддадено в УРЛ-а
-            if (string.IsNullOrWhiteSpace(model.Id))
-            {
-                return this.RedirectToAction(nameof(Index));
-            }
 
-            //проверка дали нещото в УРЛ-а е Гуид
-            bool isGuidValid = Guid.TryParse(model.Id, out var movieGuid);
+            Guid movieGuid = Guid.Empty;
+            bool isGuidValid = this.IsGuidValid(model.Id, ref movieGuid);
             if (!isGuidValid)
             {
                 return this.RedirectToAction(nameof(Index));

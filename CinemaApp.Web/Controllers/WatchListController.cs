@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaApp.Web.Controllers
 {
-    public class WatchListController : Controller
+    public class WatchListController : BaseController
     {
         //Dependecy Injection
         private readonly CinemaDbContext dbContext;

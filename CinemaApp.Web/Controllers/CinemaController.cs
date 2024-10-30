@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CinemaApp.Web.Controllers
 {
-    public class CinemaController : Controller
+    public class CinemaController : BaseController
     {
 
         private readonly CinemaDbContext dbContext;
@@ -45,14 +45,7 @@ namespace CinemaApp.Web.Controllers
                 return this.View(model);
             }
 
-            Cinema cinema = new Cinema()
-            {
-                Name = model.Name,
-                Location = model.Location,
-            };
-
-           await this.dbContext.Cinemas.AddAsync(cinema);
-           await this.dbContext.SaveChangesAsync();
+            await this.cinemaService.AddCinemaAsync(model);
 
             return this.RedirectToAction(nameof(Index));
 
@@ -61,44 +54,22 @@ namespace CinemaApp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> DetailsAsync(string? id)
         {
-            //проверка дали има нещо поддадено в УРЛ-а
-            if (string.IsNullOrWhiteSpace(id))
+            Guid cinemaGuid = Guid.Empty;
+            bool isIdValid = this.IsGuidValid(id, ref cinemaGuid);
+            if (!isIdValid)
             {
                 return this.RedirectToAction(nameof(Index));
             }
 
-            //проверка дали нещото в УРЛ-а е Гуид
-            bool isGuidValid = Guid.TryParse(id, out var cinemaGuid);
-            if (!isGuidValid)
-            {
-                return this.RedirectToAction(nameof(Index));
-            }
 
-            Cinema? cinema = await this.dbContext.Cinemas
-                .Include(c=> c.CinemaMovies)
-                .ThenInclude(c=>c.Movie)
-                .FirstOrDefaultAsync(c => c.Id == cinemaGuid);
+            CinemaDetailsViewModel model = await  this.cinemaService
+                .GetCinemaDetailsByIdAsync(cinemaGuid);
 
             //Проверка дали има Кино с Такъв Гуид
-            if (cinema == null)
+            if (model == null)
             {
                 return this.RedirectToAction(nameof(Index));
             }
-
-            CinemaDetailsViewModel model = new CinemaDetailsViewModel()
-            {
-                Name = cinema.Name,
-                Location = cinema.Location,
-                Movies = cinema.CinemaMovies
-                .Where(cm=>cm.IsDeleted == false)
-                .Select(cm => new CinemaMovieViewModel()
-                {
-                    Title = cm.Movie.Title,
-                    Duration = cm.Movie.Duration
-                })
-                .ToArray()
-            };
-
             return this.View(model);
 
         }

@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CinemaApp.Services.Mapping;
+using CinemaWeb.Data.Models;
+using System.ComponentModel.DataAnnotations;
 using static CinemaApp.Web.Common.EntityValidatonConstants.Cinema;
 
 namespace CinemaApp.Web.ViewModels.CinemaViewModels
 {
-    public class CreateCinemaVIewModel
+    public class CreateCinemaVIewModel : IMapTo<Cinema>
     {
         [Required]
         [MaxLength(NameMaxLenght)]
